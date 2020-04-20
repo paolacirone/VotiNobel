@@ -36,7 +36,22 @@ public class FXMLController {
     void doCalcolaCombinazione(ActionEvent event) {
     		try {
     			int numeroCrediti = Integer.parseInt(txtInput.getText());
+    			
+    			Long start = System.currentTimeMillis();
     			Set<Esame> voti = model.calcolaSottoinsiemeEsami(numeroCrediti);
+    			Long end = System.currentTimeMillis();
+    			
+    			if(voti==null) {
+    				txtResult.appendText("Non ho trovato soluzioni");
+    				return; 
+    			}
+    			
+    			txtResult.appendText("TEMPO IMPIEGATO: " +(end-start)+"\n");
+    			txtResult.appendText("La media dei voti è :" +this.model.calcolaMedia(voti)+ "\n");
+    			
+    			for(Esame e: voti) {
+    				txtResult.appendText(e.toString()+ "\n");
+    			}
     			
     		} catch (NumberFormatException e) {
     			txtResult.setText("Inserire un numero di crediti > 0");
